@@ -1,0 +1,19 @@
+{
+  "name": "errandbooking",
+  "version": "1.0.0",
+  "description": "This repo will allow customers book for errand services",
+  "main": "Delivery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nskalu/ErrandBooking.git"
+  },
+  "author": "Ngozi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nskalu/ErrandBooking/issues"
+  },
+  "homepage": "https://github.com/nskalu/ErrandBooking#readme"
+}
