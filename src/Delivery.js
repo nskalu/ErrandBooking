@@ -11,15 +11,33 @@ app.post('/api/make-booking', (req, res)=>{
 
     const delivery= {
         Id:errands.length + 1, 
-        Name:req.body.Name
+        Name:req.body.Name,
+        Phone:req.body.Phone,
+        PickupAddress:req.body.PickupAddress,
+        DeliveryAddress:req.body.DeliveryAddress
     };
     errands.push(delivery);
     res.send(delivery);
 });
 
+//get all bookings
+app.get('/api/bookings', (req, res)=>{
+    res.send(errands);
+});
+//get a single booking
+app.get('/api/booking/:Id/', (req, res)=>{
+    const booking= errands.find(c=> c.Id === parseInt(req.params.Id));
+    if (!booking) res.status(404).send(`The course with the Id ${req.params.Id} could not be found`); 
+    res.send(booking);
+});
+
+//schema and validations
 function validateDelivery(bookingModel){
     const schema = {
-        Name : Joi.string().min(3).required()
+        Name : Joi.string().min(3).required(),
+        Phone : Joi.string().min(11).required(),
+        PickupAddress : Joi.string().required(),
+        DeliveryAddress : Joi.string().required()
     };
 
     return Joi.validate(bookingModel, schema);
@@ -27,4 +45,8 @@ function validateDelivery(bookingModel){
 }
 
 //Use array to store data for now
-const errands = [{Id : 1, Name:'Chi Esther'}, {Id : 2, Name:'John Omega'}]
+const errands = 
+    [
+        {Id : 1, Name:'Chi Esther', Phone:"08099977876", PickupAddress:"Ikeja", DeliveryAddress:"Lagos Island"}, 
+        {Id : 2, Name:'John Omega', Phone:"08098977876", PickupAddress:"Gbagada", DeliveryAddress:"Lagos Island"}
+    ]
