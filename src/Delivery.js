@@ -13,6 +13,7 @@ app.post('/api/make-booking', (req, res)=>{
         Id:errands.length + 1, 
         Name:req.body.Name,
         Phone:req.body.Phone,
+        Email:req.body.Email,
         PickupAddress:req.body.PickupAddress,
         DeliveryAddress:req.body.DeliveryAddress
     };
@@ -37,7 +38,8 @@ function validateDelivery(bookingModel){
         Name : Joi.string().min(3).required(),
         Phone : Joi.string().min(11).required(),
         PickupAddress : Joi.string().required(),
-        DeliveryAddress : Joi.string().required()
+        DeliveryAddress : Joi.string().required(),
+        Email: Joi.string().required()
     };
 
     return Joi.validate(bookingModel, schema);
@@ -47,6 +49,6 @@ function validateDelivery(bookingModel){
 //Use array to store data for now
 const errands = 
     [
-        {Id : 1, Name:'Chi Esther', Phone:"08099977876", PickupAddress:"Ikeja", DeliveryAddress:"Lagos Island"}, 
-        {Id : 2, Name:'John Omega', Phone:"08098977876", PickupAddress:"Gbagada", DeliveryAddress:"Lagos Island"}
+        {Id : 1, Name:'Chi Esther', Phone:"08099977876", PickupAddress:"Ikeja", DeliveryAddress:"Lagos Island", Email:"ng@yahoo.com"}, 
+        {Id : 2, Name:'John Omega', Phone:"08098977876", PickupAddress:"Gbagada", DeliveryAddress:"Lagos Island", Email:"babyng@yahoo.com"}
     ]
