@@ -25,10 +25,37 @@ app.post('/api/make-booking', (req, res)=>{
 app.get('/api/bookings', (req, res)=>{
     res.send(errands);
 });
+
 //get a single booking
 app.get('/api/booking/:Id/', (req, res)=>{
     const booking= errands.find(c=> c.Id === parseInt(req.params.Id));
-    if (!booking) res.status(404).send(`The course with the Id ${req.params.Id} could not be found`); 
+    if (!booking) res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`); 
+    res.send(booking);
+});
+
+//update booking with payment by admin
+app.put('/api/booking/:Id', (req, res)=>{
+    const booking= errands.find(c=> c.Id === parseInt(req.params.Id));
+    if (!booking) return res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`);
+
+   
+   //const result = validateDelivery(req.body);
+   const {error} = validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
+    if (error) return res.status(400).send(error.details[0].message);
+    
+    
+    booking.Name=req.body.Name
+   
+    res.send(errands);
+});
+//delete a course
+app.delete('/api/booking/:Id', (req, res)=>{
+    const booking= errands.find(c=> c.Id === parseInt(req.params.Id));
+    if (!booking) return res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`);
+
+    
+     const index = errands.indexOf(booking);
+     errands.splice(index,1);
     res.send(booking);
 });
 
