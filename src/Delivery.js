@@ -15,7 +15,9 @@ app.post('/api/make-booking', (req, res)=>{
         Phone:req.body.Phone,
         Email:req.body.Email,
         PickupAddress:req.body.PickupAddress,
-        DeliveryAddress:req.body.DeliveryAddress
+        DeliveryAddress:req.body.DeliveryAddress,
+        PickupPhone:req.body.PickupPhone,
+        DeliveryPhone:req.body.DeliveryPhone
     };
     errands.push(delivery);
     res.send(delivery);
@@ -43,8 +45,13 @@ app.put('/api/booking/:Id', (req, res)=>{
    const {error} = validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
     if (error) return res.status(400).send(error.details[0].message);
     
-    
     booking.Name=req.body.Name
+    booking.Phone=req.body.Phone
+    booking.PickupAddress=req.body.PickupAddress
+    booking.DeliveryAddress=req.body.DeliveryAddress
+    booking.Email=req.body.Email,
+    booking.PickupPhone=req.body.PickupPhone
+    booking.DeliveryPhone=req.body.DeliveryPhone
    
     res.send(errands);
 });
@@ -66,7 +73,9 @@ function validateDelivery(bookingModel){
         Phone : Joi.string().min(11).required(),
         PickupAddress : Joi.string().required(),
         DeliveryAddress : Joi.string().required(),
-        Email: Joi.string().required()
+        Email: Joi.string().required(),
+        DeliveryPhone:Joi.string().required(),
+        PickupPhone:Joi.string().required()
     };
 
     return Joi.validate(bookingModel, schema);
@@ -76,6 +85,6 @@ function validateDelivery(bookingModel){
 //Use array to store data for now
 const errands = 
     [
-        {Id : 1, Name:'Chi Esther', Phone:"08099977876", PickupAddress:"Ikeja", DeliveryAddress:"Lagos Island", Email:"ng@yahoo.com"}, 
-        {Id : 2, Name:'John Omega', Phone:"08098977876", PickupAddress:"Gbagada", DeliveryAddress:"Lagos Island", Email:"babyng@yahoo.com"}
+        {Id : 1, Name:'Chi Esther', Phone:"08099977876", PickupAddress:"Ikeja", DeliveryAddress:"Lagos Island", Email:"ng@yahoo.com",PickupPhone:"08090977876",DeliveryPhone:"08099923876"}, 
+        {Id : 2, Name:'John Omega', Phone:"08098977876", PickupAddress:"Gbagada", DeliveryAddress:"Lagos Island", Email:"babyng@yahoo.com",PickupPhone:"09090977126",DeliveryPhone:"08092312876"}
     ]
