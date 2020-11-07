@@ -4,11 +4,11 @@ const app = express();
 app.use(express.json());
 
 //POST: make a delivery booking
-app.post('/api/make-booking', (req, res)=>{
+app.post('/api/make-booking', (req, res)=>{ 
+    console.log("the date is "+req.body.DeliveryDate);
     const {error} = validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
     if (error) return res.status(400).send(error.details[0].message);
- 
-    console.log(req.body.Name);
+
 //set the delivery object from the request
     const delivery= {
         Id:errands.length + 1, 
@@ -20,7 +20,8 @@ app.post('/api/make-booking', (req, res)=>{
         PickupPhone:req.body.PickupPhone,
         DeliveryPhone:req.body.DeliveryPhone,
         PickupDate:req.body.PickupDate,
-        DeliveryDate:req.body.DeliveryDate
+        DeliveryDate:req.body.DeliveryDate,
+        DeliveryName:req.body.DeliveryName
     };
     errands.push(delivery);
     res.send(delivery);
@@ -57,6 +58,7 @@ app.put('/api/booking/:Id', (req, res)=>{
     booking.DeliveryPhone=req.body.DeliveryPhone;
     booking.DeliveryDate = req.body.DeliveryDate;
     booking.PickupDate = req.body.PickupDate;
+    booking.DeliveryName=req.body.DeliveryName
    
     res.send(booking);
 });
@@ -73,27 +75,28 @@ app.delete('/api/booking/:Id', (req, res)=>{
 
 //schema and validations
 function validateDelivery(bookingModel){
-    const schema = {
+    const schema = Joi.object({
         Name : Joi.string().min(3).required(),
         Phone : Joi.string().min(11).required(),
         PickupAddress : Joi.string().required(),
         DeliveryAddress : Joi.string().required(),
-        Email: Joi.string().required(),
-        DeliveryPhone:Joi.string().required(),
-        PickupPhone:Joi.string().required(),
-        DeliveryDate:Joi.datetime().iso().required,
-        PickupDate:Joi.datetime().iso().required
-    };
+        Email: Joi.string().email(),
+        DeliveryPhone:Joi.string().min(11).max(11).required(),
+        PickupPhone:Joi.string().min(11).max(11).required(),
+        DeliveryDate:Joi.date().iso().required(), //date format should be yyyy/mm/dd
+        PickupDate:Joi.date().iso().required(),
+        DeliveryName:Joi.string().min(3)
+    });
 
-    return Joi.validate(bookingModel, schema);
+    return schema.validate(bookingModel);
      
 }
 
 //Use array to store data for now
 const errands = 
     [
-        {Id : 1, Name:'Chi Esther', Phone:"08099977876", PickupAddress:"Ikeja", DeliveryAddress:"Lagos Island", Email:"ng@yahoo.com",PickupPhone:"08090977876",DeliveryPhone:"08099923876",DeliveryDate:"11-02-2020",PickupDate:"11-02-2020"}, 
-        {Id : 2, Name:'John Omega', Phone:"08098977876", PickupAddress:"Gbagada", DeliveryAddress:"Lagos Island", Email:"babyng@yahoo.com",PickupPhone:"09090977126",DeliveryPhone:"08092312876",DeliveryDate:"11-02-2020",PickupDate:"11-02-2020"}
+        {Id : 1, Name:'Chi Esther', Phone:"08099977876", PickupAddress:"Ikeja", DeliveryAddress:"Lagos Island", Email:"ng@yahoo.com",PickupPhone:"08090977876",DeliveryPhone:"08099923876",DeliveryDate:"11-02-2020",PickupDate:"11-02-2020", DeliveryName:"testin name"}, 
+        {Id : 2, Name:'John Omega', Phone:"08098977876", PickupAddress:"Gbagada", DeliveryAddress:"Lagos Island", Email:"babyng@yahoo.com",PickupPhone:"09090977126",DeliveryPhone:"08092312876",DeliveryDate:"11-02-2020",PickupDate:"11-02-2020",DeliveryName:"tester name"}
     ]
 
     //setting an environment variable
