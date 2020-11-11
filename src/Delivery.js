@@ -26,7 +26,7 @@ const errandSchema = new mongoose.Schema({
 
 //transform schema, into a model
 const Errand = mongoose.model('Errand', errandSchema);
-async function createErrand(model, string) {
+async function createErrand(model) {
     const errand = new Errand({
         name : model.Name,
         phone : model.Phone,
@@ -51,7 +51,33 @@ async function getErrands() {
     return errands;
 }
 
+async function getErrand(id) {
+    const errand = await Errand.findById(id);
+    return errand;
+}
 
+async function updateErrand(model) {
+
+    const booking = await Errand.findById(id);
+    if (!booking) return
+
+    booking.Name=req.body.Name;
+    booking.Phone=req.body.Phone;
+    booking.PickupAddress=req.body.PickupAddress;
+    booking.DeliveryAddress=req.body.DeliveryAddress;
+    booking.Email=req.body.Email;
+    booking.PickupPhone=req.body.PickupPhone;
+    booking.DeliveryPhone=req.body.DeliveryPhone;
+    booking.DeliveryDate = req.body.DeliveryDate;
+    booking.PickupDate = req.body.PickupDate;
+    booking.DeliveryName=req.body.DeliveryName
+    
+    await errand.save();
+}
+
+async function deleteErrand(id) {
+    const errand = await Errand.deleteOne({_id: id});
+}
 
 //POST: make a delivery booking
 app.post('/api/make-booking', (req, res)=>{ 
@@ -84,29 +110,15 @@ app.put('/api/booking/:Id', (req, res)=>{
    //const result = validateDelivery(req.body);
    const {error} = validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
     if (error) return res.status(400).send(error.details[0].message);
-    
-    booking.Name=req.body.Name;
-    booking.Phone=req.body.Phone;
-    booking.PickupAddress=req.body.PickupAddress;
-    booking.DeliveryAddress=req.body.DeliveryAddress;
-    booking.Email=req.body.Email;
-    booking.PickupPhone=req.body.PickupPhone;
-    booking.DeliveryPhone=req.body.DeliveryPhone;
-    booking.DeliveryDate = req.body.DeliveryDate;
-    booking.PickupDate = req.body.PickupDate;
-    booking.DeliveryName=req.body.DeliveryName
-   
-    res.send(booking);
+
+    updateErrand(req.body);
 });
 //delete a course
 app.delete('/api/booking/:Id', (req, res)=>{
     const booking= errands.find(c=> c.Id === parseInt(req.params.Id));
     if (!booking) return res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`);
 
-    
-     const index = errands.indexOf(booking);
-     errands.splice(index,1);
-    res.send(booking);
+    deleteErrand();
 });
 
 //schema and validations
