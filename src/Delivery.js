@@ -1,34 +1,70 @@
+const mongoose = require('mongoose')
 const express = require('express') //returns a function
 const Joi = require('joi');
+const { date } = require('joi');
 const app = express();
 app.use(express.json());
+
+mongoose.connect("mongodb://localhost/SuzerrandDb")//mongoose will create this db when you first write sth to this db
+.then(()=> console.log("Connected to MongoDb..."))
+.catch(err=> console.error("Could not connect to db..", err)); 
+
+//create schema to define the shape of the document
+const errandSchema = new mongoose.Schema({
+    name : String,
+    phone : String,
+    pickupAddress : String,
+    deliveryAddress : String,
+    email: String,
+    deliveryPhone:String,
+    pickupPhone:String,
+    deliveryDate:Date,
+    pickupDate:Date,
+    deliveryName:String,
+    dateStamp: {type: Date, default: Date.now}
+});
+
+//transform schema, into a model
+const Errand = mongoose.model('Errand', errandSchema);
+async function createErrand(model, string) {
+    const errand = new Errand({
+        name : model.Name,
+        phone : model.Phone,
+        pickupAddress : model.PickupAddress,
+        deliveryAddress : model.DeliveryAddress,
+        email: model.Email,
+        deliveryPhone : model.DeliveryPhone,
+        pickupPhone : model.PickupPhone,
+        deliveryDate : model.DeliveryDate,
+        pickupDate : model.PickupDate,
+        deliveryName : model.DeliveryName
+    })
+    
+    const result = await errand.save();
+    return result._id;
+} 
+
+async function getErrands() {
+    const errands = await Errand
+    .find()
+    .sort({dateStamp: -1});
+    return errands;
+}
+
+
 
 //POST: make a delivery booking
 app.post('/api/make-booking', (req, res)=>{ 
     console.log("the date is "+req.body.DeliveryDate);
     const {error} = validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
     if (error) return res.status(400).send(error.details[0].message);
-
-//set the delivery object from the request
-    const delivery= {
-        Id:errands.length + 1, 
-        Name:req.body.Name,
-        Phone:req.body.Phone,
-        Email:req.body.Email,
-        PickupAddress:req.body.PickupAddress,
-        DeliveryAddress:req.body.DeliveryAddress,
-        PickupPhone:req.body.PickupPhone,
-        DeliveryPhone:req.body.DeliveryPhone,
-        PickupDate:req.body.PickupDate,
-        DeliveryDate:req.body.DeliveryDate,
-        DeliveryName:req.body.DeliveryName
-    };
-    errands.push(delivery);
-    res.send(delivery);
+    const result = createErrand(req.body);
+    res.send(result);
 });
 
 //get all bookings
 app.get('/api/bookings', (req, res)=>{
+    const errands = getErrands();
     res.send(errands);
 });
 
@@ -41,7 +77,7 @@ app.get('/api/booking/:Id/', (req, res)=>{
 
 //update booking with payment by admin
 app.put('/api/booking/:Id', (req, res)=>{
-    const booking= errands.find(c=> c.Id === parseInt(req.params.Id));
+    const booking= Errand.find(c=> c.Id === parseInt(req.params.Id));
     if (!booking) return res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`);
 
    
