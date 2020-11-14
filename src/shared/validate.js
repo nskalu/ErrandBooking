@@ -19,3 +19,5 @@ function validateDelivery(bookingModel){
     return schema.validate(bookingModel);
      
 }
+
+module.exports.validateDelivery = validateDelivery;

@@ -78,3 +78,9 @@ async function updateErrand(model) {
 async function deleteErrand(id) {
     const errand = await Errand.deleteOne({_id: id});
 }
+
+module.exports.deleteErrand = deleteErrand;
+module.exports.updateErrand = updateErrand;
+module.exports.getErrand = getErrand;
+module.exports.getErrands = getErrands;
+module.exports.createErrand = createErrand;
