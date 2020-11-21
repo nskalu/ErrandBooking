@@ -17,20 +17,20 @@ app.post('/api/make-booking', async function(req, res){
 });
 
 //get all bookings
-app.get('/api/bookings', (req, res)=>{
+app.get('/api/bookings', async function(req, res){
     const errands = db.getErrands();
     res.send(errands);
 });
 
 //get a single booking
-app.get('/api/booking/:Id/', (req, res)=>{
+app.get('/api/booking/:Id/', async function(req, res){
     const booking= db.getErrand(req.params.Id);
     if (!booking) res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`); 
     res.send(booking);
 });
 
 //update booking with payment by admin
-app.put('/api/booking/:Id', (req, res)=>{
+app.put('/api/booking/:Id', async function(req, res){
     const booking= db.getErrand(req.params.Id);
     if (!booking) return res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`);
 
@@ -40,7 +40,7 @@ app.put('/api/booking/:Id', (req, res)=>{
     db.updateErrand(req.body);
 });
 //delete a course
-app.delete('/api/booking/:Id', (req, res)=>{
+app.delete('/api/booking/:Id', async function(req, res){
     const booking= errands.find(c=> c.Id === parseInt(req.params.Id));
     if (!booking) return res.status(404).send(`The booking with the Id ${req.params.Id} could not be found`);
 
