@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-    "version": "1.0.0", ///version of the OpenAPI Specification
+    "version": "1.0.0", 
     "title": "My User Project CRUD",
     "description": "Errand Booking Application API",
     "license": {
