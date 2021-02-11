@@ -32,7 +32,11 @@ async function createErrand(model, ) {
         pickupPhone : model.PickupPhone,
         deliveryDate : model.DeliveryDate,
         pickupDate : model.PickupDate,
-        deliveryName : model.DeliveryName
+        deliveryName : model.DeliveryName,
+        BookerName : model.BookerName,
+        BookerNumber : model.BookerNumber,
+        PaymentMethod : model.PaymentMethod,
+        Payer : model.Payer
     })
     
     const result = await errand
