@@ -74,7 +74,11 @@ async function updateErrand(model) {
     booking.DeliveryPhone=req.body.DeliveryPhone;
     booking.DeliveryDate = req.body.DeliveryDate;
     booking.PickupDate = req.body.PickupDate;
-    booking.DeliveryName=req.body.DeliveryName
+    booking.DeliveryName=req.body.DeliveryName;
+    booking.BookerName = model.BookerName;
+    booking.BookerNumber = model.BookerNumber;
+    booking.PaymentMethod = model.PaymentMethod;
+    booking.Payer = model.Payer;
     
     await errand.save();
 }
