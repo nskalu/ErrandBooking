@@ -5,23 +5,26 @@ mongoose.connect("mongodb://localhost/SuzerrandDb")//mongoose will create this d
 
 //create schema to define the shape of the document
 const errandSchema = new mongoose.Schema({
-    name : String,
-    phone : String,
-    pickupAddress : String,
-    deliveryAddress : String,
-    email: String,
-    deliveryPhone:String,
-    pickupPhone:String,
-    deliveryDate:Date,
-    pickupDate:Date,
-    deliveryName:String,
+    BookerName : String,
+    BookerPhone : String,
+    SenderName : String,
+    SenderPhone : String,
+    RecipientName: String,
+    RecipientPhone:String,
+    PickupAddress:String,
+    DeliveryAddress: String,
+    DeliveryDate: Date,
+    PickupDate: Date,
+    PaymentMethod: String,
+    Payer : String,
+    Prioritylevel : String,
     dateStamp: {type: Date, default: Date.now}
 });
 
 //transform schema, into a model
 const Errand = mongoose.model('Errand', errandSchema);
 
-async function createErrand(model, ) {
+async function createErrand(model) {
     const errand = new Errand({
         BookerName : model.BookerName,
         BookerPhone : model.BookerPhone,
@@ -43,7 +46,7 @@ async function createErrand(model, ) {
     .then(x=>{
 
     });
-    console.log(result._id);
+    console.log(result);
     return result._id;
 }
 
@@ -64,20 +67,19 @@ async function updateErrand(model) {
     const booking = await Errand.findById(id);
     if (!booking) return
 
-    booking.Name=req.body.Name;
-    booking.Phone=req.body.Phone;
+    booking.BookerName=req.body.BookerName;
+    booking.BookerPhone=req.body.BookerPhone;
+    booking.SenderName=req.body.SenderName;
+    booking.SenderPhone=req.body.SenderPhone;
+    booking.RecipientName=req.body.RecipientName;
+    booking.RecipientPhone=req.body.RecipientPhone;
     booking.PickupAddress=req.body.PickupAddress;
-    booking.DeliveryAddress=req.body.DeliveryAddress;
-    booking.Email=req.body.Email;
-    booking.PickupPhone=req.body.PickupPhone;
-    booking.DeliveryPhone=req.body.DeliveryPhone;
+    booking.DeliveryAddress = req.body.DeliveryAddress;
     booking.DeliveryDate = req.body.DeliveryDate;
-    booking.PickupDate = req.body.PickupDate;
-    booking.DeliveryName=req.body.DeliveryName;
-    booking.BookerName = model.BookerName;
-    booking.BookerNumber = model.BookerNumber;
+    booking.PickupDate=req.body.PickupDate;
     booking.PaymentMethod = model.PaymentMethod;
     booking.Payer = model.Payer;
+    booking.Prioritylevel = model.Prioritylevel;
     
     await errand.save();
 }
