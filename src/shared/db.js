@@ -23,20 +23,19 @@ const Errand = mongoose.model('Errand', errandSchema);
 
 async function createErrand(model, ) {
     const errand = new Errand({
-        name : model.Name,
-        phone : model.Phone,
-        pickupAddress : model.PickupAddress,
-        deliveryAddress : model.DeliveryAddress,
-        email: model.Email,
-        deliveryPhone : model.DeliveryPhone,
-        pickupPhone : model.PickupPhone,
-        deliveryDate : model.DeliveryDate,
-        pickupDate : model.PickupDate,
-        deliveryName : model.DeliveryName,
         BookerName : model.BookerName,
-        BookerNumber : model.BookerNumber,
+        BookerPhone : model.BookerPhone,
+        SenderName : model.SenderName,
+        SenderPhone : model.SenderPhone,
+        RecipientName: model.RecipientName,
+        RecipientPhone : model.RecipientPhone,
+        PickupAddress : model.PickupAddress,
+        DeliveryAddress : model.DeliveryAddress,
+        DeliveryDate : model.DeliveryDate,
+        PickupDate : model.PickupDate,
         PaymentMethod : model.PaymentMethod,
-        Payer : model.Payer
+        Payer : model.Payer,
+        Prioritylevel : model.Prioritylevel
     })
     
     const result = await errand
