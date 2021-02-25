@@ -6,11 +6,14 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("../swagger.json");
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+var bodyParser = require('body-parser')
+ 
+// create application/json parser
+var jsonParser = bodyParser.json()
 
 module.exports = (app) => {
   //POST: make a delivery booking
-  app.post("/api/make-booking", async function (req, res) {
-    console.log("just hitting the post endpoint");
+  app.post("/api/make-booking", jsonParser, async function (req, res) {
     const { error } = validate.validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
     if (error) return res.status(400).send(error.details[0].message);
     console.log("validated successfully");
@@ -21,7 +24,6 @@ module.exports = (app) => {
 
   //get all bookings
   app.get("/api/bookings", async function (req, res) {
-    console.log("Just hit the get all bookings");
     const errands = db.getErrands();
     res.send(errands);
   });
