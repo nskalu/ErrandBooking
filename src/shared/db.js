@@ -42,11 +42,10 @@ async function createErrand(model) {
     })
     
     const result = await errand
-    .save()
-    .then(x=>{
+    .save();
+    //.then(x=>{
 
-    });
-    console.log(result);
+    //});
     return result._id;
 }
 
@@ -62,26 +61,25 @@ async function getErrand(id) {
     return errand;
 }
 
-async function updateErrand(model) {
-
+async function updateErrand(req, id) {
     const booking = await Errand.findById(id);
-    if (!booking) return
+    if (!booking) return;
 
-    booking.BookerName=req.body.BookerName;
-    booking.BookerPhone=req.body.BookerPhone;
-    booking.SenderName=req.body.SenderName;
-    booking.SenderPhone=req.body.SenderPhone;
-    booking.RecipientName=req.body.RecipientName;
-    booking.RecipientPhone=req.body.RecipientPhone;
-    booking.PickupAddress=req.body.PickupAddress;
-    booking.DeliveryAddress = req.body.DeliveryAddress;
-    booking.DeliveryDate = req.body.DeliveryDate;
-    booking.PickupDate=req.body.PickupDate;
-    booking.PaymentMethod = model.PaymentMethod;
-    booking.Payer = model.Payer;
-    booking.Prioritylevel = model.Prioritylevel;
+    booking.BookerName = req.BookerName;
+    booking.BookerPhone = req.BookerPhone;
+    booking.SenderName = req.SenderName;
+    booking.SenderPhone = req.SenderPhone;
+    booking.RecipientName = req.RecipientName;
+    booking.RecipientPhone = req.RecipientPhone;
+    booking.PickupAddress = req.PickupAddress;
+    booking.DeliveryAddress = req.DeliveryAddress;
+    booking.DeliveryDate = req.DeliveryDate;
+    booking.PickupDate = req.PickupDate;
+    booking.PaymentMethod = req.PaymentMethod;
+    booking.Payer = req.Payer;
+    booking.Prioritylevel = req.Prioritylevel;
     
-    await errand.save();
+    await booking.save();
 }
 
 async function deleteErrand(id) {
