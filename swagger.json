@@ -9,7 +9,7 @@
     "url": "https://opensource.org/licenses/MIT"
     }
     },
-    "host": "localhost:3000",
+    "host": "localhost:3000/api",
     "basePath": "/",
     "tags": [
     {
@@ -25,5 +25,89 @@
     ],
     "produces": [
     "application/json"
-    ]
+    ],
+    "definitions" : {
+        "booking" : {
+            "type" : "object",
+        "properties" : {
+            "_id": {
+                "type" : "string"
+            },
+            "BookerName": {
+                "type" : "string"
+            },
+            "BookerPhone": {
+                "type" : "string"
+            },
+            "SenderName": {
+                "type" : "string"
+            },
+            "SenderPhone": {
+                "type" : "string"
+            },
+            "RecipientName": {
+                "type" : "string"
+            },
+            "RecipientPhone": {
+                "type" : "string"
+            },
+            "PickupAddress": {
+                "type" : "string"
+            },
+            "DeliveryAddress": {
+                "type" : "string"
+            },
+            "DeliveryDate": {
+                "type" : "string"
+            },
+            "PickupDate": {
+                "type" : "string"
+            },
+            "PaymentMethod": {
+                "type" : "string"
+            },
+            "Payer": {
+                "type" : "string"
+            },
+            "Prioritylevel": {
+                "type" : "string"
+            },
+            "dateStamp": {
+                "type" : "string"
+            },
+            "__v": {
+                "type" : "number"
+            }
+        }
+    },
+        "bookings" : {
+            "type" : "object",
+        "additionalProperties" : {
+            "$ref": "#/definitions/booking"
     }
+}
+},
+    "paths" : {
+            "/bookings": {
+              "get": {
+                "description": "Returns all orders made",
+                "responses": {
+                  "200": {          
+                    "description": "A list of orders.",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/definitions/bookings"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+            }
+        }
+    }
+}
+
