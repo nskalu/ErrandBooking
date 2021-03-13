@@ -10,7 +10,7 @@ var jsonParser = bodyParser.json()
 
 module.exports = (app) => {
   //POST: make a delivery booking
-  app.post("/api/make-booking", jsonParser, async function (req, res) {
+  app.post("/api/book", jsonParser, async function (req, res) {
     const { error } = validate.validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
     if (error) return res.status(400).send(error.details[0].message);
     console.log("validated successfully");
@@ -25,7 +25,7 @@ module.exports = (app) => {
   });
 
   //get a single booking
-  app.get("/api/booking/:Id", async function (req, res) {
+  app.get("/api/:Id", async function (req, res) {
     const booking = await db.getErrand(req.params.Id);
     if (!booking)
       res

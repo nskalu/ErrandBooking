@@ -90,24 +90,118 @@
     "paths" : {
             "/bookings": {
               "get": {
-                "description": "Returns all orders made",
+                "description": "Returns all bookings made",
                 "responses": {
                   "200": {          
-                    "description": "A list of orders.",
-                    "content": {
-                      "application/json": {
-                        "schema": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/definitions/bookings"
-                          }
+                    "description": "A list of bookings.",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/definitions/bookings"
                         }
                       }
-                    }
                   }
                 }
             }
+        },
+            "/{id}": {
+                "parameters" : [{
+                    "name" : "id",
+                    "in" : "path",
+                    "required" : "true",
+                    "type" : "string"
+                }],
+                "get": {
+                    "description": "Returns the requested booking",
+                    "responses": {
+                        "200": {          
+                          "description": "Ok",
+                          "schema": {
+                            "$ref": "#/definitions/booking"
+                          }
+                        }
+                }
+            }
+        },
+                "/book": {
+                    "parameters" : [
+                    {
+                     "name" : "body",
+                        "in" : "body",
+                        "required" : "true",
+                        "schema" : {
+                        "$ref": "#/definitions/booking"
+                     }
+                    }
+                ],
+                "post": {
+                    "description": "Returns all orders made",
+                     "responses": {
+                        "200": {          
+                            "description": "Id of created booking.",
+                            "schema" : {
+                                "name" : "id",
+                                "type" : "string"
+                            }
+                        }
+                    }
+                 }
+        },
+            "/booking/{id}": {
+                "parameters" : [
+                    {
+                    "name" : "id",
+                    "in" : "path",
+                    "required" : "true",
+                    "type" : "string"
+                },
+                {
+                    "name" : "body",
+                    "in" : "body",
+                    "required" : "true",
+                    "schema" : {
+                        "$ref": "#/definitions/booking"
+                    }
+                }
+            ],
+                "put": {
+                    "description": "Returns all orders made",
+                     "responses": {
+                        "200": {          
+                         "description": "A list of orders.",
+                         "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "array",
+                                 "items": {
+                                    "$ref": "#/definitions/bookings"
+                                    }
+                                }
+                            }
+                         }
+                    }
+                }
+            }
+        },
+        "/bookings/{id}": {
+            "parameters" : [
+                {
+                "name" : "id",
+                "in" : "path",
+                "required" : "true",
+                "type" : "string"
+            }
+        ],
+            "delete": {
+                "description": "Deletes the booking in the request",
+                 "responses": {
+                    "204": {          
+                     "description": "Delete"
+             }
+            }
         }
     }
+    }
 }
+  
 
