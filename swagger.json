@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
     "version": "1.0.0", 
-    "title": "My User Project CRUD",
+    "title": "SuzErrand APIs",
     "description": "Errand Booking Application API",
     "license": {
     "name": "MIT",
@@ -30,9 +30,6 @@
         "booking" : {
             "type" : "object",
         "properties" : {
-            "_id": {
-                "type" : "string"
-            },
             "BookerName": {
                 "type" : "string"
             },
@@ -71,12 +68,6 @@
             },
             "Prioritylevel": {
                 "type" : "string"
-            },
-            "dateStamp": {
-                "type" : "string"
-            },
-            "__v": {
-                "type" : "number"
             }
         }
     },
@@ -85,7 +76,15 @@
         "additionalProperties" : {
             "$ref": "#/definitions/booking"
     }
-}
+},
+        "_id" : {
+            "type": "object",
+            "properties" : {
+                "_id" : {
+                    "type" : "string"
+                }
+            }
+        }
 },
     "paths" : {
             "/bookings": {
@@ -101,25 +100,6 @@
                         }
                       }
                   }
-                }
-            }
-        },
-            "/{id}": {
-                "parameters" : [{
-                    "name" : "id",
-                    "in" : "path",
-                    "required" : "true",
-                    "type" : "string"
-                }],
-                "get": {
-                    "description": "Returns the requested booking",
-                    "responses": {
-                        "200": {          
-                          "description": "Ok",
-                          "schema": {
-                            "$ref": "#/definitions/booking"
-                          }
-                        }
                 }
             }
         },
@@ -140,67 +120,72 @@
                         "200": {          
                             "description": "Id of created booking.",
                             "schema" : {
-                                "name" : "id",
-                                "type" : "string"
+                                "$ref" : "#/definitions/_id"
                             }
                         }
                     }
                  }
         },
-            "/booking/{id}": {
+            
+             "/bookings/{id}": {
+                "parameters" : [{
+                "name" : "id",
+                "in" : "path",
+                "required" : "true",
+                "type" : "string"
+            }],
+            "get": {
+                "description": "Returns the requested booking",
+                "responses": {
+                    "200": {          
+                      "description": "Ok",
+                      "schema": {
+                        "$ref": "#/definitions/booking"
+                      }
+                    }
+                }
+            },
+                "put": {
+                    "parameters" : [
+                        {
+                        "name" : "id",
+                        "in" : "path",
+                        "required" : "true",
+                        "type" : "string"
+                    },
+                    {
+                        "name" : "body",
+                        "in" : "body",
+                        "required" : "true",
+                        "schema" : {
+                            "$ref": "#/definitions/booking"
+                        }
+                    }
+                ],
+                    "description": "Returns all orders made",
+                     "responses": {
+                        "204": {          
+                         "description": "Update."
+                    }
+                }
+            },
+            "delete": {
                 "parameters" : [
                     {
                     "name" : "id",
                     "in" : "path",
                     "required" : "true",
                     "type" : "string"
-                },
-                {
-                    "name" : "body",
-                    "in" : "body",
-                    "required" : "true",
-                    "schema" : {
-                        "$ref": "#/definitions/booking"
-                    }
-                }
-            ],
-                "put": {
-                    "description": "Returns all orders made",
-                     "responses": {
-                        "200": {          
-                         "description": "A list of orders.",
-                         "content": {
-                            "application/json": {
-                                "schema": {
-                                "type": "array",
-                                 "items": {
-                                    "$ref": "#/definitions/bookings"
-                                    }
-                                }
-                            }
-                         }
-                    }
-                }
-            }
-        },
-        "/bookings/{id}": {
-            "parameters" : [
-                {
-                "name" : "id",
-                "in" : "path",
-                "required" : "true",
-                "type" : "string"
-            }
-        ],
-            "delete": {
+                }],
                 "description": "Deletes the booking in the request",
                  "responses": {
                     "204": {          
                      "description": "Delete"
-             }
+                    }
+                }
             }
+
         }
-    }
     }
 }
   

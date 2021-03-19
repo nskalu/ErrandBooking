@@ -25,7 +25,7 @@ module.exports = (app) => {
   });
 
   //get a single booking
-  app.get("/api/:Id", async function (req, res) {
+  app.get("/api/bookings/:Id", async function (req, res) {
     const booking = await db.getErrand(req.params.Id);
     if (!booking)
       res
@@ -35,12 +35,13 @@ module.exports = (app) => {
   });
 
   //update booking with payment by admin
-  app.put("/api/booking/:id", jsonParser, async function (req, res) {
+  app.put("/api/bookings/:id", jsonParser, async function (req, res) {
     const booking = await db.getErrand(req.params.id);
     if (!booking)
       return res
         .status(404)
         .send(`The booking with the Id ${req.params.id} could not be found`);
+        
 
     const { error } = validate.validateDelivery(req.body); //this line is equivalent to returning result.error, it's called object destructuring
     if (error) return res.status(400).send(error.details[0].message);
@@ -50,7 +51,7 @@ module.exports = (app) => {
     res.status(204).send();
   });
   //delete a course
-  app.delete("/api/booking/:id", async function (req, res) {
+  app.delete("/api/bookings/:id", async function (req, res) {
     const booking = await db.getErrand(req.params.id);
     if (!booking)
       return res
