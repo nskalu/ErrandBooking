@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
-mongoose.connect("mongodb://localhost/SuzerrandDb")//mongoose will create this db when you first write sth to this db
+const env = require('./environment/environment')
+//mongoose.connect(`mongodb://localhost/${env.dbName}`)//mongoose will create this db when you first write sth to this db
+mongoose.connect(`mongodb://${env.dbName}:${env.key}@${env.dbName}.mongo.cosmos.azure.com:${env.port}/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@${env.dbName}@`)
 .then(()=> console.log("Connected to MongoDb..."))
 .catch(err=> console.error("Could not connect to db..", err));
 
