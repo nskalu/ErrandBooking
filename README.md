@@ -1,2 +1,2 @@
 # ErrandBooking
-This repo will allow customers book for errand services
+This repo will allow users manage errand or logistics services
