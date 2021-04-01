@@ -3,10 +3,10 @@ const app = express();
 const db = require("../src/shared/db.js");
 const validate = require("../src/shared/validate");
 app.use(express.json());
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
  
 // create application/json parser
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json();
 
 module.exports = (app) => {
   //POST: make a delivery booking
